@@ -122,10 +122,12 @@ def update_game_interface():
             wraplength=150,
             justify="center",
             width=15,
-            height=7,
+            height=7
+        )
 
-            command=lambda card=card_text:
-                select_card(card)
+        card_button.config(
+        command=lambda card=card_text, button=card_button:
+            select_card(card, button)
         )
 
         card_button.grid(
@@ -136,20 +138,25 @@ def update_game_interface():
             sticky="nsew"
         )
 
+selected_card_button = None
 
 #выбор карты
-def select_card(card):
-    """
-    Пока просто показывает выбранную карту.
+def select_card(card, button):
+    global selected_card_button
 
-    Позже здесь будет отправка выбора
-    на server.py.
-    """
+    # Возвращаем предыдущую карту к обычному цвету
+    if selected_card_button is not None:
+        selected_card_button.config(
+            bg="SystemButtonFace",
+            activebackground="SystemButtonFace"
+        )
 
-    messagebox.showinfo(
-        "Карта выбрана",
-        f"Ты выбрал:\n\n{card}"
+    button.config(
+        bg="#F6D365",
+        activebackground="#F6D365"
     )
+
+    selected_card_button = button
 
 
 #получение данных от сервера
